@@ -114,7 +114,7 @@
 
         <script>
             /*choices sa location*/
-            const data = {
+            let data = {
                 "Davao del Norte": {
                     "Tagum": ["Mankilam", "Apokon", "Magugpo", "Visayan Village", "La Filipina"],
                     "Panabo": ["San Francisco", "Gredu", "Datu Abdul", "JP Laurel"]
@@ -126,18 +126,18 @@
                 }
             };
             /*sa city*/
-            const provinceSelect = document.getElementById("province");
-            const citySelect = document.getElementById("city");
-            const barangaySelect = document.getElementById("barangay");
+            let provinceSelect = document.getElementById("province");
+            let citySelect = document.getElementById("city");
+            let barangaySelect = document.getElementById("barangay");
 
             provinceSelect.addEventListener("change", function () {
-                const selectedProvince = this.value;
+                let selectedProvince = this.value;
                 citySelect.innerHTML = '<option disabled selected value="">Select your Municipality or City</option>';
                 barangaySelect.innerHTML = '<option disabled selected value="">Select your Barangay</option>';
 
                 if (data[selectedProvince]) {
                     Object.keys(data[selectedProvince]).forEach(city => {
-                        const option = document.createElement("option");
+                        let option = document.createElement("option");
                         option.value = city;
                         option.textContent = city;
                         citySelect.appendChild(option);
@@ -147,13 +147,13 @@
             });
             /*brgy*/
             citySelect.addEventListener("change", function () {
-                const selectedProvince = provinceSelect.value;
-                const selectedCity = this.value;
+                let selectedProvince = provinceSelect.value;
+                let selectedCity = this.value;
                 barangaySelect.innerHTML = '<option disabled selected value="">Select your Barangay</option>';
 
                 if (data[selectedProvince][selectedCity]) {
                     data[selectedProvince][selectedCity].forEach(brgy => {
-                        const option = document.createElement("option");
+                        let option = document.createElement("option");
                         option.value = brgy;
                         option.textContent = brgy;
                         barangaySelect.appendChild(option);
@@ -163,17 +163,18 @@
             });
             /*validation sa pagsubmit*/
             function validateForm() {
-                const fname = document.getElementById("fname").value.trim();
-                const lname = document.getElementById("lname").value.trim();
-                const telephone = document.getElementById("telephone").value.trim();
-                const email = document.getElementById("email").value.trim();
-                const Organization = document.getElementById("org").value.trim();
-                const province = provinceSelect.value;
-                const city = citySelect.value;
-                const barangay = barangaySelect.value;
-                const message = document.getElementById("message").value.trim();
+                let fname = document.getElementById("fname").value.trim();
+                let lname = document.getElementById("lname").value.trim();
+                let telephone = document.getElementById("telephone").value.trim();
+                let email = document.getElementById("email").value.trim();
+                let Organization = document.getElementById("org").value.trim();
+                let province = provinceSelect.value;
+                let city = citySelect.value;
+                let barangay = barangaySelect.value;
+                let street = document.getElementById("street").value.trim();
+                let message = document.getElementById("message").value.trim();
                 /*check if wala naay empty*/
-                if (!fname || !lname || !telephone || !email || !province || !city || !barangay || !message) {
+                if (!fname || !lname || !telephone || !email || !Organization || !province || !city || !barangay || !street || !message) {
                     alert("Please fill out all fields.");
                     return;
                 }
@@ -198,7 +199,7 @@
                     return;
                 }
                 /*successful*/
-                alert("Form submitted successfully!");
+                alert("Successfully Added to the contact");
             }
         </script>
 
