@@ -32,44 +32,46 @@
         <img src="Travel.jpg" alt="">
     </div>
     <div class="bg">
-        <form action="contact.html">
+        <form id="contactForm">
             <div class="users">
                 <div class="label">
                     <p>First Name</p>
                 </div>
-                <div class="text"> <input type="text" placeholder="Your Name" required></div>
+                <div class="text"><input type="text" placeholder="Your Name" id="fname" /></div>
             </div>
             <div class="users">
                 <div class="label">
                     <p>Last Name</p>
                 </div>
-                <div class="text"> <input type="text" placeholder="Your Last Name" required></div>
+                <div class="text"><input type="text" placeholder="Your Last Name" id="lname" /></div>
             </div>
             <div class="users">
                 <div class="label">
                     <p>Telephone No.</p>
                 </div>
-                <div class="text"> <input type="text" placeholder="Your Phone No." required></div>
+                <div class="text"><input type="text" placeholder="Your Phone No." id="telephone" /></div>
             </div>
             <div class="users">
                 <div class="label">
                     <p>E-mail</p>
                 </div>
-                <div class="text"> <input type="text" placeholder="sample@host.com" required></div>
+                <div class="text"><input type="text" placeholder="sample@host.com" id="email" /></div>
             </div>
             <div class="users">
                 <div class="label">
                     <p>Organization</p>
                 </div>
-                <div class="text"> <input type="text"></div>
+                <div class="text"><input type="text" id="org" /></div>
             </div>
-
             <div class="users">
                 <div class="label">
                     <p>Province</p>
                 </div>
-                <div class="text"> <select required>
-                        <option disabled selected>Select your Province</option>
+                <div class="text">
+                    <select id="province">
+                        <option disabled selected value="">Select your Province</option>
+                        <option value="Davao del Norte">Davao del Norte</option>
+                        <option value="Davao del Sur">Davao del Sur</option>
                     </select>
                 </div>
             </div>
@@ -77,8 +79,9 @@
                 <div class="label">
                     <p>City/Town</p>
                 </div>
-                <div class="text"> <select required>
-                        <option disabled selected>Select your Municipality or City</option>
+                <div class="text">
+                    <select id="city">
+                        <option disabled selected value="">Select your Municipality or City</option>
                     </select>
                 </div>
             </div>
@@ -86,8 +89,9 @@
                 <div class="label">
                     <p>Barangay</p>
                 </div>
-                <div class="text"> <select required>
-                        <option disabled selected>Select your Barangay</option>
+                <div class="text">
+                    <select id="barangay">
+                        <option disabled selected value="">Select your Barangay</option>
                     </select>
                 </div>
             </div>
@@ -95,23 +99,112 @@
                 <div class="label">
                     <p>Street</p>
                 </div>
-                <div class="text"> <input type="text"></div>
+                <div class="text"><input type="text" id="street" /></div>
             </div>
             <div class="users">
                 <div class="label">
                     <p>Message</p>
                 </div>
-                <div class="text"> <textarea placeholder="Write something...." rows="8"></textarea></div>
+                <div class="text"><textarea placeholder="Write something..." rows="5" id="message"></textarea></div>
             </div>
             <div class="sub">
-                <button>submit</button>
+                <button type="button" onclick="validateForm()">Submit</button>
             </div>
         </form>
-    </div>
 
-    <footer>
-        <p>Copyright (c) 2025, Jean Lorenzana</p>
-    </footer>
+        <script>
+            /*choices sa location*/
+            const data = {
+                "Davao del Norte": {
+                    "Tagum": ["Mankilam", "Apokon", "Magugpo", "Visayan Village", "La Filipina"],
+                    "Panabo": ["San Francisco", "Gredu", "Datu Abdul", "JP Laurel"]
+                },
+
+                "Davao del Sur": {
+                    "Digos": ["Aplaya", "Balabag", "Cogon", "Colorado", "Dawis"],
+                    "Matanao": ["Asbang", "Asinan", "Bagumbayan", "Bangkal", "Kapok"]
+                }
+            };
+            /*sa city*/
+            const provinceSelect = document.getElementById("province");
+            const citySelect = document.getElementById("city");
+            const barangaySelect = document.getElementById("barangay");
+
+            provinceSelect.addEventListener("change", function () {
+                const selectedProvince = this.value;
+                citySelect.innerHTML = '<option disabled selected value="">Select your Municipality or City</option>';
+                barangaySelect.innerHTML = '<option disabled selected value="">Select your Barangay</option>';
+
+                if (data[selectedProvince]) {
+                    Object.keys(data[selectedProvince]).forEach(city => {
+                        const option = document.createElement("option");
+                        option.value = city;
+                        option.textContent = city;
+                        citySelect.appendChild(option);
+                    });
+                }
+
+            });
+            /*brgy*/
+            citySelect.addEventListener("change", function () {
+                const selectedProvince = provinceSelect.value;
+                const selectedCity = this.value;
+                barangaySelect.innerHTML = '<option disabled selected value="">Select your Barangay</option>';
+
+                if (data[selectedProvince][selectedCity]) {
+                    data[selectedProvince][selectedCity].forEach(brgy => {
+                        const option = document.createElement("option");
+                        option.value = brgy;
+                        option.textContent = brgy;
+                        barangaySelect.appendChild(option);
+                    });
+                }
+
+            });
+            /*validation sa pagsubmit*/
+            function validateForm() {
+                const fname = document.getElementById("fname").value.trim();
+                const lname = document.getElementById("lname").value.trim();
+                const telephone = document.getElementById("telephone").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const Organization = document.getElementById("org").value.trim();
+                const province = provinceSelect.value;
+                const city = citySelect.value;
+                const barangay = barangaySelect.value;
+                const message = document.getElementById("message").value.trim();
+                /*check if wala naay empty*/
+                if (!fname || !lname || !telephone || !email || !province || !city || !barangay || !message) {
+                    alert("Please fill out all fields.");
+                    return;
+                }
+                /*if pareho and lname ug fname*/
+                if (fname.toLowerCase() === lname.toLowerCase()) {
+                    alert("First name and last name should not be the same.");
+                    return;
+                }
+                /*kani sa if dli mankilam magalert*/
+                if (province !== "Davao del Norte" || city !== "Tagum" || barangay !== "Mankilam") {
+                    alert("Address must be: Davao del Norte, Tagum, Mankilam.");
+                    return;
+                }
+                /*check if no and telephone*/
+                if (isNaN(telephone)) {
+                    alert("Telephone must be a number.");
+                    return;
+                }
+                /*dapat 10 up and message*/
+                if (message.length < 10) {
+                    alert("Message must be at least 10 characters long.");
+                    return;
+                }
+                /*successful*/
+                alert("Form submitted successfully!");
+            }
+        </script>
+
+        <footer>
+            <p>Copyright (c) 2025, Jean Lorenzana</p>
+        </footer>
 </body>
 
 </html>
