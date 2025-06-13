@@ -198,19 +198,19 @@
                     alert("Message must be at least 10 characters long.");
                     return;
                 }
-                /*confirm*/
+                /*successful*/
                 let confirmationMessage = `
-                    Please confirm your details:
+Please confirm your details:
 
-                    Name: ${fname} ${lname}
-                    Phone: ${telephone}
-                    Email: ${email}
-                    Organization: ${Organization}
-                    Address: ${street}, ${barangay}, ${city}, ${province}
-                    Message: ${message}
+Name: ${fname} ${lname}
+Phone: ${telephone}
+Email: ${email}
+Organization: ${Organization}
+Address: ${street}, ${barangay}, ${city}, ${province}
+Message: ${message}
 
-                    Do you want to submit?
-                    `;
+Do you want to submit?
+`;
 
                 if (confirm(confirmationMessage)) {
                     alert("Form submitted successfully!");
